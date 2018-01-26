@@ -19,14 +19,18 @@ RUN . /build.env \
  && git checkout ${VPP_COMMIT} \
  && UNATTENDED=y make install-dep bootstrap pkg-deb \
  && cd build-root \
- && tar -zcf vpp-debs.tar.gz ./*.deb
+ && tar -czvf vpp-debs.tar.gz {vpp,vpp-plugins,vpp-lib}_$(git describe --tags | sed -e s/-/~/2 -e s/^v//)_amd64.deb \
+ && mv ./install-vpp-native/vpp/lib64/ /opt/ldpreload/ \
+ && tar -czvf vpp-ldpreload.tar.gz /opt/ldpreload/
 
 FROM ubuntu:16.04
 
 COPY --from=builder /vpp/build-root/vpp-debs.tar.gz /tmp/vpp-debs.tar.gz
+COPY --from=builder /vpp/build-root/vpp-ldpreload.tar.gz /tmp/vpp-ldpreload.tar.gz
 
 RUN apt-get update \
  && apt-get install -y libssl1.0.0 libnuma1 \
- && tar -C /tmp/ -xzf /tmp/vpp-debs.tar.gz \
+ && tar -C /tmp/ -xvzf /tmp/vpp-debs.tar.gz \
  && dpkg -i /tmp/vpp-lib_*.deb /tmp/vpp_*.deb /tmp/vpp-plugins_*.deb \
- && rm -f /tmp/*.deb /tmp/vpp-debs.tar.gz
+ && tar -C / -xvzf /tmp/vpp-ldpreload.tar.gz \
+ && rm -f /tmp/*.deb /tmp/vpp-debs.tar.gz /tmp/vpp-ldpreload.tar.gz
