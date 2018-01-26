@@ -19,7 +19,7 @@ RUN . /build.env \
  && git checkout ${VPP_COMMIT} \
  && UNATTENDED=y make install-dep bootstrap pkg-deb \
  && cd build-root \
- && tar -czvf vpp-debs.tar.gz {vpp,vpp-plugins,vpp-lib}_$(git describe --tags | sed -e s/-/~/2 -e s/^v//)_amd64.deb \
+ && bash -c "tar -czvf vpp-debs.tar.gz {vpp,vpp-plugins,vpp-lib}_$(git describe --tags | sed -e s/-/~/2 -e s/^v//)_amd64.deb" \
  && mv ./install-vpp-native/vpp/lib64/ /opt/ldpreload/ \
  && tar -czvf vpp-ldpreload.tar.gz /opt/ldpreload/
 
