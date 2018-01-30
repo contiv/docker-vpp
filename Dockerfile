@@ -30,4 +30,4 @@ RUN apt-get update \
  && apt-get install -y libssl1.0.0 libnuma1 \
  && tar -C /tmp/ -xvzf /tmp/vpp-debs.tar.gz \
  && dpkg -i /tmp/vpp-lib_*.deb /tmp/vpp_*.deb /tmp/vpp-plugins_*.deb \
- && rm -rf /tmp/*.deb /tmp/vpp-debs.tar.gz /var/lib/apt/lists/*
+ && rm -rf /tmp/*.deb /tmp/vpp-debs.tar.gz
