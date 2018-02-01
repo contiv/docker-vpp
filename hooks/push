@@ -2,8 +2,9 @@
 
 . build.env
 
+set -xueo pipefail
+
 IMAGE_TAG="${VPP_COMMIT:0:8}"
 
-docker tag ${IMAGE_NAME} ${DOCKER_REPO}:${IMAGE_TAG}
-
-docker push ${DOCKER_REPO}:${IMAGE_TAG}
+docker push ${IMAGE_BUILDER_REPO}:${IMAGE_TAG}
+docker push ${IMAGE_REPO}:${IMAGE_TAG}
