@@ -6,8 +6,11 @@ RUN cd /vpp/build-root \
 
 FROM ubuntu:16.04
 
+ENV LD_PRELOAD_LIB_DIR /opt/ldpreload
+
 COPY --from=builder /vpp/build-root/vpp-debs.tar.gz /tmp/vpp-debs.tar.gz
-COPY --from=builder /vpp/build-root/install-vpp-native/vpp/lib64 /opt/ldpreload
+COPY --from=builder /vpp/build-root/install-vpp-native/vpp/lib64/libvcl_ldpreload.so.0.0.0 ${LD_PRELOAD_LIB_DIR}/
+
 
 RUN apt-get update \
  && apt-get install -y libssl1.0.0 libnuma1 \
