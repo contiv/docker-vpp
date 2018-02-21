@@ -17,6 +17,6 @@ RUN . /build.env \
  && cd /vpp \
  && git pull \
  && git checkout ${VPP_COMMIT} \
- && UNATTENDED=y make install-dep bootstrap pkg-deb \
+ && UNATTENDED=y make vpp_configure_args_vpp='--disable-japi --disable-vom' install-dep bootstrap pkg-deb \
  && cd build-root \
  && bash -c "dpkg -i {vpp,vpp-plugins,vpp-lib,vpp-dev}_$(git describe --tags | sed -e s/-/~/2 -e s/^v//)_amd64.deb"
