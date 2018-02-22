@@ -7,4 +7,4 @@ set -xueo pipefail
 IMAGE_TAG="${VPP_COMMIT:0:8}"
 
 docker build --no-cache --pull -f Dockerfile-builder -t ${IMAGE_BUILDER_REPO}:${IMAGE_TAG} .
-docker build --no-cache --pull --build-arg BUILDER_IMAGE="${IMAGE_BUILDER_REPO}:${IMAGE_TAG}" -f Dockerfile -t ${IMAGE_REPO}:${IMAGE_TAG} .
+docker build --no-cache --build-arg BUILDER_IMAGE="${IMAGE_BUILDER_REPO}:${IMAGE_TAG}" -f Dockerfile -t ${IMAGE_REPO}:${IMAGE_TAG} .
